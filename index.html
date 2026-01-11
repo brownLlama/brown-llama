@@ -1349,32 +1349,30 @@
 
         // Nord color palette for llama
         const colors = {
-            // Main body - using Nord Snow Storm & Frost
-            body: 0x88C0D0,        // Nord8 - main frost blue
-            bodyLight: 0x8FBCBB,   // Nord7 - lighter teal
-            bodyDark: 0x5E81AC,    // Nord10 - darker blue
-            bodySide: 0x81A1C1,    // Nord9 - medium blue
+            // Main body - beige/tan tones
+            body: 0xC4B6A6,        // Main beige
+            bodyLight: 0xD4C8B8,   // Lighter beige (top faces)
+            bodyDark: 0xA69686,    // Darker beige (bottom/shadow)
             
-            // Decorative elements - Nord Aurora
-            chest: 0xB48EAD,       // Nord15 - purple
-            accent1: 0xA3BE8C,     // Nord14 - green
-            accent2: 0xEBCB8B,     // Nord13 - yellow
-            accent3: 0xD08770,     // Nord12 - orange
+            // Neck and head
+            neck: 0xBEB0A0,        // Slightly different beige for neck
+            head: 0xC0B2A2,        // Head color
             
-            // Face and details
-            snout: 0xE5E9F0,       // Nord5 - light snow
-            snoutDark: 0xD8DEE9,   // Nord4 - darker snow
-            earInner: 0xBF616A,    // Nord11 - red/pink for ear inner
+            // Face details
+            snout: 0x9E6B5A,       // Brown/reddish snout
+            eye: 0x2A2018,         // Dark brown eyes
             
-            // Dark elements
-            hooves: 0x2E3440,      // Nord0 - polar night
-            hoovesSide: 0x3B4252,  // Nord1 - slightly lighter
-            eye: 0x2E3440,         // Nord0 - polar night
+            // Ears
+            ear: 0xB5A595,         // Ear base
+            earTip: 0x7A6050,      // Brown ear tips
             
-            // Light elements
-            white: 0xECEFF4,       // Nord6 - brightest snow
-            whiteDark: 0xD8DEE9,   // Nord4
-            pinkish: 0xB48EAD,     // Nord15 - purple accent
+            // Legs
+            legUpper: 0xD4C8B8,    // Cream upper legs
+            legLower: 0xC4B8A8,    // Slightly darker lower
+            hooves: 0x1A1512,      // Very dark hooves
+            
+            // White accents
+            white: 0xE8DDD0,       // Cream white for front
         };
 
         function easeOutElastic(x) {
@@ -1396,6 +1394,92 @@
         function easeInOutQuad(x) {
             return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
         }
+
+        function createPixelatedTexture(baseColor, gridSize = 4, seed = 123) {
+          const canvas = document.createElement('canvas');
+          const size = 64;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          
+          const cellSize = size / gridSize;
+          
+          // Parse base color
+          let r, g, b;
+          if (typeof baseColor === 'string') {
+              const hex = baseColor.replace('#', '');
+              r = parseInt(hex.substr(0, 2), 16);
+              g = parseInt(hex.substr(2, 2), 16);
+              b = parseInt(hex.substr(4, 2), 16);
+          } else {
+              r = (baseColor >> 16) & 255;
+              g = (baseColor >> 8) & 255;
+              b = baseColor & 255;
+          }
+          
+          // Seeded random function for consistent results
+          function seededRandom(s) {
+              const x = Math.sin(s * 9999) * 10000;
+              return x - Math.floor(x);
+          }
+          
+          let seedCounter = seed;
+          
+          for (let row = 0; row < gridSize; row++) {
+              for (let col = 0; col < gridSize; col++) {
+                  // Vary color based on position - darker at bottom, lighter at top
+                  // Use seeded random for consistent variation
+                  const yFactor = 1 - (row / gridSize) * 0.25;
+                  const randomFactor = 0.9 + seededRandom(seedCounter++) * 0.2;
+                  
+                  const factor = yFactor * randomFactor;
+                  
+                  const nr = Math.min(255, Math.max(0, Math.round(r * factor)));
+                  const ng = Math.min(255, Math.max(0, Math.round(g * factor)));
+                  const nb = Math.min(255, Math.max(0, Math.round(b * factor)));
+                  
+                  ctx.fillStyle = `rgb(${nr}, ${ng}, ${nb})`;
+                  ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+              }
+          }
+          
+          const texture = new THREE.CanvasTexture(canvas);
+          texture.minFilter = THREE.NearestFilter;
+          texture.magFilter = THREE.NearestFilter;
+          
+          return texture;
+        }
+
+        function createPixelBox(w, h, d, colors, gridSize = 4) {
+          const geo = new THREE.BoxGeometry(w, h, d);
+          
+          // Use different seeds for each face to ensure consistent but varied textures
+          const baseSeed = colors.top + colors.bottom + colors.front;
+          
+          const rightTex = createPixelatedTexture(colors.right, gridSize, baseSeed + 1);
+          const rightMat = new THREE.MeshBasicMaterial({ map: rightTex });
+          
+          const leftTex = createPixelatedTexture(colors.left, gridSize, baseSeed + 2);
+          const leftMat = new THREE.MeshBasicMaterial({ map: leftTex });
+          
+          const topTex = createPixelatedTexture(colors.top, gridSize, baseSeed + 3);
+          const topMat = new THREE.MeshBasicMaterial({ map: topTex });
+          
+          const bottomTex = createPixelatedTexture(colors.bottom, gridSize, baseSeed + 4);
+          const bottomMat = new THREE.MeshBasicMaterial({ map: bottomTex });
+          
+          const frontTex = createPixelatedTexture(colors.front, gridSize, baseSeed + 5);
+          const frontMat = new THREE.MeshBasicMaterial({ map: frontTex });
+          
+          const backTex = createPixelatedTexture(colors.back, gridSize, baseSeed + 6);
+          const backMat = new THREE.MeshBasicMaterial({ map: backTex });
+          
+          const materials = [rightMat, leftMat, topMat, bottomMat, frontMat, backMat];
+          
+          return new THREE.Mesh(geo, materials);
+        }
+
+
 
         function createShadedBox(w, h, d, topColor, bottomColor, frontColor, backColor, leftColor, rightColor) {
             const geo = new THREE.BoxGeometry(w, h, d);
@@ -1430,172 +1514,202 @@
             );
         }
 
-        function createLeg(x, z) {
-            const legPivot = new THREE.Group();
-            legPivot.position.set(x, 1.6, z);
-            
-            const legGroup = new THREE.Group();
-            
-            const upperLeg = createBox(0.5, 1.0, 0.5, colors.body);
-            upperLeg.position.y = -0.5;
-            legGroup.add(upperLeg);
+        function createLegSmooth(x, z) {
+          const legPivot = new THREE.Group();
+          legPivot.position.set(x, 1.6, z);
+          
+          const legGroup = new THREE.Group();
+          
+          // Upper leg
+          const upperLeg = createPixelBox(0.5, 1.0, 0.5, {
+              top: 0xE0D4C8,
+              bottom: 0xC8BCB0,
+              right: 0xD8CCC0,
+              left: 0xD0C4B8,
+              front: 0xD8CCC0,
+              back: 0xD0C4B8
+          }, 3);
+          upperLeg.position.y = -0.5;
+          legGroup.add(upperLeg);
 
-            const lowerLeg = createBox(0.45, 0.6, 0.45, colors.bodyLight);
-            lowerLeg.position.y = -1.1;
-            legGroup.add(lowerLeg);
-            
-            const hoof = createBox(0.48, 0.35, 0.48, colors.hooves, 1.3, 0.8);
-            hoof.position.y = -1.45;
-            legGroup.add(hoof);
-            
-            legPivot.add(legGroup);
-            return legPivot;
+          // Lower leg
+          const lowerLeg = createPixelBox(0.45, 0.6, 0.45, {
+              top: 0xD8CCC0,
+              bottom: 0xC0B4A8,
+              right: 0xD0C4B8,
+              left: 0xC8BCB0,
+              front: 0xD0C4B8,
+              back: 0xC8BCB0
+          }, 3);
+          lowerLeg.position.y = -1.1;
+          legGroup.add(lowerLeg);
+          
+          // Hoof
+          const hoof = createPixelBox(0.48, 0.35, 0.48, {
+              top: 0x3A3330,
+              bottom: 0x1A1512,
+              right: 0x2A2320,
+              left: 0x252018,
+              front: 0x2A2320,
+              back: 0x201A15
+          }, 2);
+          hoof.position.y = -1.45;
+          legGroup.add(hoof);
+          
+          legPivot.add(legGroup);
+          return legPivot;
         }
 
         function createLlama() {
-            pivot = new THREE.Group();
-            llama = new THREE.Group();
+          pivot = new THREE.Group();
+          llama = new THREE.Group();
 
-            // Main body - Nord frost blue
-            const body = createBox(2.0, 1.6, 3.0, colors.body);
-            body.position.set(0, 2.4, 0);
-            llama.add(body);
+          // Main body with pixelated shading
+          const body = createPixelBox(2.0, 1.6, 3.0, {
+              top: 0xD8CCC0,
+              bottom: 0xA89888,
+              right: 0xCCC0B4,
+              left: 0xC0B4A8,
+              front: 0xC8BCB0,
+              back: 0xBEB2A6
+          }, 6);
+          body.position.set(0, 2.4, 0);
+          llama.add(body);
 
-            // Body patches - using Nord aurora colors
-            const patchGreen1 = createBox(0.1, 0.8, 1.4, colors.accent1);
-            patchGreen1.position.set(-1.01, 2.5, 0.2);
-            llama.add(patchGreen1);
+          // Neck
+          const neck = createPixelBox(1.0, 2.4, 0.9, {
+              top: 0xD8CCC0,
+              bottom: 0xA89888,
+              right: 0xCCC0B4,
+              left: 0xC0B4A8,
+              front: 0xD0C4B8,
+              back: 0xC0B4A8
+          }, 4);
+          neck.position.set(0, 4.0, -1.2);
+          llama.add(neck);
 
-            const patchGreen2 = createBox(0.1, 0.8, 1.4, colors.accent1);
-            patchGreen2.position.set(1.01, 2.5, 0.2);
-            llama.add(patchGreen2);
+          // Neck white front stripe
+          const neckWhite = createPixelBox(0.3, 1.8, 0.1, {
+              top: 0xF4ECE4,
+              bottom: 0xD8D0C8,
+              right: 0xECE4DC,
+              left: 0xE8E0D8,
+              front: 0xF0E8E0,
+              back: 0xE8E0D8
+          }, 3);
+          neckWhite.position.set(0, 4.0, -1.76);
+          llama.add(neckWhite);
 
-            const patchYellow1 = createBox(0.1, 0.5, 0.6, colors.accent2);
-            patchYellow1.position.set(-1.02, 2.0, -0.3);
-            llama.add(patchYellow1);
+          // Head
+          const head = createPixelBox(1.2, 1.1, 1.4, {
+              top: 0xD4C8BC,
+              bottom: 0xA49484,
+              right: 0xC8BCB0,
+              left: 0xC0B4A8,
+              front: 0xCCC0B4,
+              back: 0xC0B4A8
+          }, 4);
+          head.position.set(0, 5.5, -1.4);
+          llama.add(head);
 
-            const patchYellow2 = createBox(0.1, 0.5, 0.6, colors.accent2);
-            patchYellow2.position.set(1.02, 2.0, -0.3);
-            llama.add(patchYellow2);
+          // Face white marking
+          const faceWhite = createPixelBox(0.6, 0.5, 0.1, {
+              top: 0xF0E8E0,
+              bottom: 0xD8D0C8,
+              right: 0xE8E0D8,
+              left: 0xE4DCD4,
+              front: 0xECE4DC,
+              back: 0xE4DCD4
+          }, 2);
+          faceWhite.position.set(0, 5.4, -2.11);
+          llama.add(faceWhite);
 
-            const patchDark1 = createBox(0.1, 0.4, 0.5, colors.bodyDark);
-            patchDark1.position.set(-1.02, 1.8, 0.8);
-            llama.add(patchDark1);
+          // Snout
+          const snout = createPixelBox(0.8, 0.5, 0.5, {
+              top: 0xA87868,
+              bottom: 0x785040,
+              right: 0x986858,
+              left: 0x906050,
+              front: 0x9A6A5A,
+              back: 0x885848
+          }, 3);
+          snout.position.set(0, 5.1, -2.0);
+          llama.add(snout);
 
-            const patchDark2 = createBox(0.1, 0.4, 0.5, colors.bodyDark);
-            patchDark2.position.set(1.02, 1.8, 0.8);
-            llama.add(patchDark2);
+          // Eyes
+          const eyeMat = new THREE.MeshBasicMaterial({ color: 0x1A1512 });
+          const leftEyeGeo = new THREE.BoxGeometry(0.18, 0.14, 0.1);
+          const leftEye = new THREE.Mesh(leftEyeGeo, eyeMat);
+          leftEye.position.set(-0.32, 5.6, -2.12);
+          llama.add(leftEye);
 
-            // Chest band - Nord purple
-            const chestBand = createBox(2.05, 0.5, 0.8, colors.chest);
-            chestBand.position.set(0, 2.8, -0.8);
-            llama.add(chestBand);
+          const rightEyeGeo = new THREE.BoxGeometry(0.18, 0.14, 0.1);
+          const rightEye = new THREE.Mesh(rightEyeGeo, eyeMat);
+          rightEye.position.set(0.32, 5.6, -2.12);
+          llama.add(rightEye);
 
-            // Neck
-            const neck = createBox(1.0, 2.4, 1.0, colors.bodyLight);
-            neck.position.set(0, 4.0, -1.2);
-            llama.add(neck);
+          // Left Ear
+          const leftEar = createPixelBox(0.2, 0.7, 0.15, {
+              top: 0x8A7A6A,
+              bottom: 0xC4B8AC,
+              right: 0xA09080,
+              left: 0x988878,
+              front: 0xA09080,
+              back: 0x988878
+          }, 2);
+          leftEar.position.set(-0.4, 6.25, -1.2);
+          leftEar.rotation.z = -0.2;
+          leftEar.rotation.x = -0.1;
+          llama.add(leftEar);
 
-            const neckWhite = createBox(0.3, 1.8, 0.1, colors.white);
-            neckWhite.position.set(0, 4.0, -1.76);
-            llama.add(neckWhite);
+          // Right Ear
+          const rightEar = createPixelBox(0.2, 0.7, 0.15, {
+              top: 0x8A7A6A,
+              bottom: 0xC4B8AC,
+              right: 0xA09080,
+              left: 0x988878,
+              front: 0xA09080,
+              back: 0x988878
+          }, 2);
+          rightEar.position.set(0.4, 6.25, -1.2);
+          rightEar.rotation.z = 0.2;
+          rightEar.rotation.x = -0.1;
+          llama.add(rightEar);
 
-            const neckSide1 = createBox(0.1, 1.0, 0.6, colors.accent3);
-            neckSide1.position.set(-0.51, 3.8, -1.2);
-            llama.add(neckSide1);
+          // Tail
+          const tail = createPixelBox(0.3, 0.4, 0.5, {
+              top: 0xD0C4B8,
+              bottom: 0xA89888,
+              right: 0xC4B8AC,
+              left: 0xBCB0A4,
+              front: 0xC4B8AC,
+              back: 0xBCB0A4
+          }, 2);
+          tail.position.set(0, 2.8, 1.7);
+          llama.add(tail);
 
-            const neckSide2 = createBox(0.1, 1.0, 0.6, colors.accent3);
-            neckSide2.position.set(0.51, 3.8, -1.2);
-            llama.add(neckSide2);
+          // Legs
+          const legPositions = [
+              { x: -0.6, z: -1.0 },
+              { x: 0.6, z: -1.0 },
+              { x: -0.6, z: 1.0 },
+              { x: 0.6, z: 1.0 }
+          ];
 
-            // Head
-            const head = createBox(1.2, 1.1, 1.4, colors.body);
-            head.position.set(0, 5.5, -1.4);
-            llama.add(head);
+          legPositions.forEach((pos) => {
+              const leg = createLegSmooth(pos.x, pos.z);
+              llama.add(leg);
+              legs.push(leg);
+          });
 
-            const faceWhite = createBox(0.6, 0.5, 0.1, colors.white);
-            faceWhite.position.set(0, 5.4, -2.11);
-            llama.add(faceWhite);
-
-            const faceSide1 = createBox(0.1, 0.6, 0.8, colors.accent2);
-            faceSide1.position.set(-0.61, 5.4, -1.5);
-            llama.add(faceSide1);
-
-            const faceSide2 = createBox(0.1, 0.6, 0.8, colors.accent2);
-            faceSide2.position.set(0.61, 5.4, -1.5);
-            llama.add(faceSide2);
-
-            // Snout - Nord snow
-            const snout = createBox(0.8, 0.5, 0.5, colors.snout);
-            snout.position.set(0, 5.1, -2.0);
-            llama.add(snout);
-
-            const snoutBand = createBox(0.85, 0.25, 0.1, colors.chest);
-            snoutBand.position.set(0, 5.25, -2.26);
-            llama.add(snoutBand);
-
-            // Eyes - Nord polar night
-            const eyeMat = new THREE.MeshBasicMaterial({ color: colors.eye });
-            const leftEyeGeo = new THREE.BoxGeometry(0.2, 0.15, 0.1);
-            const leftEye = new THREE.Mesh(leftEyeGeo, eyeMat);
-            leftEye.position.set(-0.35, 5.6, -2.12);
-            llama.add(leftEye);
-
-            const rightEyeGeo = new THREE.BoxGeometry(0.2, 0.15, 0.1);
-            const rightEye = new THREE.Mesh(rightEyeGeo, eyeMat);
-            rightEye.position.set(0.35, 5.6, -2.12);
-            llama.add(rightEye);
-
-            // Ears
-            const leftEar = createBox(0.25, 0.8, 0.2, colors.body);
-            leftEar.position.set(-0.4, 6.3, -1.2);
-            leftEar.rotation.z = -0.25;
-            leftEar.rotation.x = -0.15;
-            llama.add(leftEar);
-
-            const leftEarInner = createBox(0.12, 0.5, 0.1, colors.earInner);
-            leftEarInner.position.set(-0.38, 6.25, -1.05);
-            leftEarInner.rotation.z = -0.25;
-            llama.add(leftEarInner);
-
-            const rightEar = createBox(0.25, 0.8, 0.2, colors.body);
-            rightEar.position.set(0.4, 6.3, -1.2);
-            rightEar.rotation.z = 0.25;
-            rightEar.rotation.x = -0.15;
-            llama.add(rightEar);
-
-            const rightEarInner = createBox(0.12, 0.5, 0.1, colors.earInner);
-            rightEarInner.position.set(0.38, 6.25, -1.05);
-            rightEarInner.rotation.z = 0.25;
-            llama.add(rightEarInner);
-
-            // Legs
-            const legPositions = [
-                { x: -0.6, z: -1.0 },
-                { x: 0.6, z: -1.0 },
-                { x: -0.6, z: 1.0 },
-                { x: 0.6, z: 1.0 }
-            ];
-
-            legPositions.forEach((pos) => {
-                const leg = createLeg(pos.x, pos.z);
-                llama.add(leg);
-                legs.push(leg);
-            });
-
-            // Tail
-            const tail = createBox(0.3, 0.4, 0.5, colors.body);
-            tail.position.set(0, 2.8, 1.7);
-            llama.add(tail);
-
-            llama.position.y = -3;
-            
-            pivot.add(llama);
-            
-            pivot.scale.set(0, 0, 0);
-            pivot.rotation.y = -Math.PI * 2;
-            
-            scene.add(pivot);
+          llama.position.y = -3;
+          
+          pivot.add(llama);
+          
+          pivot.scale.set(0, 0, 0);
+          pivot.rotation.y = -Math.PI * 2;
+          
+          scene.add(pivot);
         }
 
         function initLlama() {
