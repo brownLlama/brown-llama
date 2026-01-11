@@ -1520,31 +1520,31 @@
           
           const legGroup = new THREE.Group();
           
-          // Upper leg
+          // Upper leg - MORE BROWN
           const upperLeg = createPixelBox(0.5, 1.0, 0.5, {
-              top: 0xE0D4C8,
-              bottom: 0xC8BCB0,
-              right: 0xD8CCC0,
-              left: 0xD0C4B8,
-              front: 0xD8CCC0,
-              back: 0xD0C4B8
+              top: 0xECD2B9,
+              bottom: 0xD2BAA3,
+              right: 0xE3CAB2,
+              left: 0xDBC2AA,
+              front: 0xE3CAB2,
+              back: 0xDBC2AA
           }, 3);
           upperLeg.position.y = -0.5;
           legGroup.add(upperLeg);
 
-          // Lower leg
+          // Lower leg - MORE BROWN
           const lowerLeg = createPixelBox(0.45, 0.6, 0.45, {
-              top: 0xD8CCC0,
-              bottom: 0xC0B4A8,
-              right: 0xD0C4B8,
-              left: 0xC8BCB0,
-              front: 0xD0C4B8,
-              back: 0xC8BCB0
+              top: 0xE3CAB2,
+              bottom: 0xCAB29B,
+              right: 0xDBC2AA,
+              left: 0xD2BAA3,
+              front: 0xDBC2AA,
+              back: 0xD2BAA3
           }, 3);
           lowerLeg.position.y = -1.1;
           legGroup.add(lowerLeg);
           
-          // Hoof
+          // Hoof stays dark
           const hoof = createPixelBox(0.48, 0.35, 0.48, {
               top: 0x3A3330,
               bottom: 0x1A1512,
@@ -1566,30 +1566,30 @@
 
           // Main body with pixelated shading
           const body = createPixelBox(2.0, 1.6, 3.0, {
-              top: 0xD8CCC0,
-              bottom: 0xA89888,
-              right: 0xCCC0B4,
-              left: 0xC0B4A8,
-              front: 0xC8BCB0,
-              back: 0xBEB2A6
+            top: 0xE3CAB2,
+            bottom: 0xB1967E,
+            right: 0xD7BEA7,
+            left: 0xCAB29B,
+            front: 0xD2BAA3,
+            back: 0xC8B09A
           }, 6);
           body.position.set(0, 2.4, 0);
           llama.add(body);
 
           // Neck
           const neck = createPixelBox(1.0, 2.4, 0.9, {
-              top: 0xD8CCC0,
-              bottom: 0xA89888,
-              right: 0xCCC0B4,
-              left: 0xC0B4A8,
-              front: 0xD0C4B8,
-              back: 0xC0B4A8
+            top: 0xE3CAB2,
+            bottom: 0xB1967E,
+            right: 0xD7BEA7,
+            left: 0xCAB29B,
+            front: 0xDBC2AA,
+            back: 0xCAB29B
           }, 4);
-          neck.position.set(0, 4.0, -1.2);
+          neck.position.set(0, 4.0, -1.0);  // Also fixed z-fighting
           llama.add(neck);
 
           // Neck white front stripe
-          const neckWhite = createPixelBox(0.3, 1.8, 0.1, {
+          const neckWhite = createPixelBox(0.3, 1.8, 0.01, {
               top: 0xF4ECE4,
               bottom: 0xD8D0C8,
               right: 0xECE4DC,
@@ -1597,19 +1597,19 @@
               front: 0xF0E8E0,
               back: 0xE8E0D8
           }, 3);
-          neckWhite.position.set(0, 4.0, -1.76);
+          neckWhite.position.set(0, 4.0, -1.45);  // Changed from -1.76 to -1.45
           llama.add(neckWhite);
 
           // Head
           const head = createPixelBox(1.2, 1.1, 1.4, {
-              top: 0xD4C8BC,
-              bottom: 0xA49484,
-              right: 0xC8BCB0,
-              left: 0xC0B4A8,
-              front: 0xCCC0B4,
-              back: 0xC0B4A8
+              top: 0xDFC6AE,
+              bottom: 0xAC927A,
+              right: 0xD2BAA3,
+              left: 0xCAB29B,
+              front: 0xD7BEA7,
+              back: 0xCAB29B
           }, 4);
-          head.position.set(0, 5.5, -1.4);
+          head.position.set(0, 5.5, -1);
           llama.add(head);
 
           // Face white marking
@@ -1621,7 +1621,7 @@
               front: 0xECE4DC,
               back: 0xE4DCD4
           }, 2);
-          faceWhite.position.set(0, 5.4, -2.11);
+          faceWhite.position.set(0, 5.4, -1.7);
           llama.add(faceWhite);
 
           // Snout
@@ -1633,29 +1633,29 @@
               front: 0x9A6A5A,
               back: 0x885848
           }, 3);
-          snout.position.set(0, 5.1, -2.0);
+          snout.position.set(0, 5.1, -1.6);
           llama.add(snout);
 
           // Eyes
           const eyeMat = new THREE.MeshBasicMaterial({ color: 0x1A1512 });
           const leftEyeGeo = new THREE.BoxGeometry(0.18, 0.14, 0.1);
           const leftEye = new THREE.Mesh(leftEyeGeo, eyeMat);
-          leftEye.position.set(-0.32, 5.6, -2.12);
+          leftEye.position.set(-0.32, 5.6, -1.72);
           llama.add(leftEye);
 
           const rightEyeGeo = new THREE.BoxGeometry(0.18, 0.14, 0.1);
           const rightEye = new THREE.Mesh(rightEyeGeo, eyeMat);
-          rightEye.position.set(0.32, 5.6, -2.12);
+          rightEye.position.set(0.32, 5.6, -1.72);
           llama.add(rightEye);
 
           // Left Ear
           const leftEar = createPixelBox(0.2, 0.7, 0.15, {
-              top: 0x8A7A6A,
-              bottom: 0xC4B8AC,
-              right: 0xA09080,
-              left: 0x988878,
-              front: 0xA09080,
-              back: 0x988878
+              top: 0x917862,
+              bottom: 0xCEB69F,
+              right: 0xA88E76,
+              left: 0xA0866F,
+              front: 0xA88E76,
+              back: 0xA0866F
           }, 2);
           leftEar.position.set(-0.4, 6.25, -1.2);
           leftEar.rotation.z = -0.2;
@@ -1664,12 +1664,12 @@
 
           // Right Ear
           const rightEar = createPixelBox(0.2, 0.7, 0.15, {
-              top: 0x8A7A6A,
-              bottom: 0xC4B8AC,
-              right: 0xA09080,
-              left: 0x988878,
-              front: 0xA09080,
-              back: 0x988878
+              top: 0x917862,
+              bottom: 0xCEB69F,
+              right: 0xA88E76,
+              left: 0xA0866F,
+              front: 0xA88E76,
+              back: 0xA0866F
           }, 2);
           rightEar.position.set(0.4, 6.25, -1.2);
           rightEar.rotation.z = 0.2;
@@ -1678,12 +1678,12 @@
 
           // Tail
           const tail = createPixelBox(0.3, 0.4, 0.5, {
-              top: 0xD0C4B8,
-              bottom: 0xA89888,
-              right: 0xC4B8AC,
-              left: 0xBCB0A4,
-              front: 0xC4B8AC,
-              back: 0xBCB0A4
+              top: 0xDBC2AA,
+              bottom: 0xB1967E,
+              right: 0xCEB69F,
+              left: 0xC6AE98,
+              front: 0xCEB69F,
+              back: 0xC6AE98
           }, 2);
           tail.position.set(0, 2.8, 1.7);
           llama.add(tail);
