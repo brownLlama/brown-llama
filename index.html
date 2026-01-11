@@ -14,13 +14,38 @@
         }
 
         :root {
-            --primary: #6C63FF;
-            --secondary: #FF6B6B;
-            --dark: #0a0a0f;
-            --darker: #050508;
-            --light: #ffffff;
-            --gray: #8892b0;
-            --accent: #64ffda;
+            /* Nord Polar Night */
+            --nord0: #2E3440;
+            --nord1: #3B4252;
+            --nord2: #434C5E;
+            --nord3: #4C566A;
+            
+            /* Nord Snow Storm */
+            --nord4: #D8DEE9;
+            --nord5: #E5E9F0;
+            --nord6: #ECEFF4;
+            
+            /* Nord Frost */
+            --nord7: #8FBCBB;
+            --nord8: #88C0D0;
+            --nord9: #81A1C1;
+            --nord10: #5E81AC;
+            
+            /* Nord Aurora */
+            --nord11: #BF616A;
+            --nord12: #D08770;
+            --nord13: #EBCB8B;
+            --nord14: #A3BE8C;
+            --nord15: #B48EAD;
+            
+            /* Theme Variables */
+            --primary: var(--nord9);
+            --secondary: var(--nord15);
+            --dark: var(--nord0);
+            --darker: #242933;
+            --light: var(--nord6);
+            --gray: var(--nord4);
+            --accent: var(--nord8);
         }
 
         html {
@@ -34,7 +59,6 @@
             overflow-x: hidden;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -48,7 +72,6 @@
             border-radius: 4px;
         }
 
-        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -59,7 +82,7 @@
             align-items: center;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            background: rgba(10, 10, 15, 0.8);
+            background: rgba(46, 52, 64, 0.8);
             transition: all 0.3s ease;
         }
 
@@ -67,7 +90,7 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--nord8), var(--nord15));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -80,7 +103,7 @@
         }
 
         .nav-links a {
-            color: var(--gray);
+            color: var(--nord4);
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
@@ -121,7 +144,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -137,7 +159,7 @@
         }
 
         .hero-content .greeting {
-            color: var(--accent);
+            color: var(--nord8);
             font-size: 1.1rem;
             font-weight: 500;
             margin-bottom: 1rem;
@@ -153,7 +175,7 @@
         }
 
         .hero-content h1 span {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--nord8), var(--nord15));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -161,24 +183,24 @@
 
         .hero-content h2 {
             font-size: 2.5rem;
-            color: var(--gray);
+            color: var(--nord4);
             font-weight: 400;
             margin-bottom: 1.5rem;
             min-height: 3rem;
         }
 
         .hero-content h2 .typed-text {
-            border-right: 3px solid var(--accent);
+            border-right: 3px solid var(--nord8);
             animation: blink 0.7s infinite;
         }
 
         @keyframes blink {
-            0%, 50% { border-color: var(--accent); }
+            0%, 50% { border-color: var(--nord8); }
             51%, 100% { border-color: transparent; }
         }
 
         .hero-content p {
-            color: var(--gray);
+            color: var(--nord4);
             font-size: 1.1rem;
             line-height: 1.8;
             max-width: 500px;
@@ -221,24 +243,24 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--nord9), var(--nord10));
             color: var(--light);
             border: none;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(129, 161, 193, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
+            color: var(--nord8);
+            border: 2px solid var(--nord8);
         }
 
         .btn-secondary:hover {
-            background: rgba(100, 255, 218, 0.1);
+            background: rgba(136, 192, 208, 0.1);
             transform: translateY(-3px);
         }
 
@@ -246,86 +268,46 @@
             flex: 1;
             height: 600px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #llama-container {
             width: 100%;
             height: 100%;
+            cursor: grab;
         }
 
-        /* Floating elements */
-        .floating-elements {
-            position: absolute;
+        #llama-container:active {
+            cursor: grabbing;
+        }
+
+        #llamaCanvas {
+            display: block;
             width: 100%;
             height: 100%;
-            pointer-events: none;
         }
 
-        .float-icon {
+        .llama-hint {
             position: absolute;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .float-icon img {
-            width: 40px;
-            height: 40px;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Interactive Data Bubbles */
-        .data-bubbles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .data-bubble {
-            position: absolute;
-            background: rgba(108, 99, 255, 0.1);
-            border: 2px solid rgba(108, 99, 255, 0.3);
-            border-radius: 50%;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--nord4);
+            font-size: 0.85rem;
+            opacity: 0.7;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            animation: bubbleFloat 8s ease-in-out infinite;
-            transition: all 0.3s ease;
+            gap: 8px;
+            animation: fadeInOut 3s ease-in-out infinite;
         }
 
-        .data-bubble:hover {
-            background: rgba(108, 99, 255, 0.2);
-            border-color: rgba(108, 99, 255, 0.6);
-            transform: scale(1.2);
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
         }
 
-        @keyframes bubbleFloat {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-30px) rotate(5deg);
-            }
-            50% {
-                transform: translateY(-60px) rotate(-5deg);
-            }
-            75% {
-                transform: translateY(-30px) rotate(3deg);
-            }
-        }
-
-        /* Code Rain Effect */
         .code-rain {
             position: absolute;
             top: 0;
@@ -342,7 +324,7 @@
             top: -100%;
             font-family: 'Courier New', monospace;
             font-size: 14px;
-            color: var(--accent);
+            color: var(--nord8);
             white-space: nowrap;
             animation: codeRain linear infinite;
         }
@@ -364,7 +346,6 @@
             }
         }
 
-        /* About Section */
         .section {
             padding: 100px 10%;
         }
@@ -382,12 +363,12 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, var(--gray), transparent);
+            background: linear-gradient(90deg, var(--nord3), transparent);
             max-width: 300px;
         }
 
         .section-title span {
-            color: var(--accent);
+            color: var(--nord8);
             font-size: 1.5rem;
         }
 
@@ -400,13 +381,12 @@
         }
 
         .about-text p {
-            color: var(--gray);
+            color: var(--nord4);
             line-height: 1.8;
             margin-bottom: 1.5rem;
             font-size: 1.05rem;
         }
 
-        /* Skills Section */
         .skills-section {
             background: var(--darker);
         }
@@ -418,8 +398,8 @@
         }
 
         .skill-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(59, 66, 82, 0.5);
+            border: 1px solid var(--nord2);
             border-radius: 20px;
             padding: 2rem;
             transition: all 0.3s ease;
@@ -427,14 +407,14 @@
 
         .skill-card:hover {
             transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15);
+            border-color: var(--nord9);
+            box-shadow: 0 20px 40px rgba(129, 161, 193, 0.15);
         }
 
         .skill-card-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--nord9), var(--nord15));
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -447,10 +427,11 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.4rem;
             margin-bottom: 1rem;
+            color: var(--nord6);
         }
 
         .skill-card p {
-            color: var(--gray);
+            color: var(--nord4);
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
@@ -462,14 +443,14 @@
         }
 
         .skill-tag {
-            background: rgba(100, 255, 218, 0.1);
-            color: var(--accent);
+            background: rgba(136, 192, 208, 0.15);
+            color: var(--nord8);
             padding: 0.4rem 1rem;
             border-radius: 20px;
             font-size: 0.85rem;
+            border: 1px solid rgba(136, 192, 208, 0.3);
         }
 
-        /* Experience Section */
         .timeline {
             position: relative;
             max-width: 800px;
@@ -483,7 +464,7 @@
             transform: translateX(-50%);
             width: 2px;
             height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            background: linear-gradient(180deg, var(--nord9), var(--nord15));
         }
 
         .timeline-item {
@@ -509,7 +490,7 @@
             width: 20px;
             height: 20px;
             background: var(--dark);
-            border: 3px solid var(--accent);
+            border: 3px solid var(--nord8);
             border-radius: 50%;
             top: 2.5rem;
         }
@@ -523,19 +504,19 @@
         }
 
         .timeline-content {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(59, 66, 82, 0.5);
+            border: 1px solid var(--nord2);
             border-radius: 15px;
             padding: 1.5rem;
             transition: all 0.3s ease;
         }
 
         .timeline-content:hover {
-            border-color: var(--primary);
+            border-color: var(--nord9);
         }
 
         .timeline-date {
-            color: var(--accent);
+            color: var(--nord8);
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
@@ -543,21 +524,21 @@
         .timeline-content h3 {
             font-family: 'Space Grotesk', sans-serif;
             margin-bottom: 0.5rem;
+            color: var(--nord6);
         }
 
         .timeline-content h4 {
-            color: var(--gray);
+            color: var(--nord4);
             font-weight: 400;
             margin-bottom: 1rem;
         }
 
         .timeline-content p {
-            color: var(--gray);
+            color: var(--nord4);
             font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        /* Blog Section */
         .blog-section {
             background: var(--darker);
         }
@@ -569,8 +550,8 @@
         }
 
         .blog-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(59, 66, 82, 0.5);
+            border: 1px solid var(--nord2);
             border-radius: 20px;
             overflow: hidden;
             transition: all 0.3s ease;
@@ -578,12 +559,12 @@
 
         .blog-card:hover {
             transform: translateY(-10px);
-            border-color: var(--primary);
+            border-color: var(--nord9);
         }
 
         .blog-image {
             height: 200px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--nord9), var(--nord15));
             position: relative;
             overflow: hidden;
         }
@@ -599,7 +580,7 @@
             position: absolute;
             top: 1rem;
             left: 1rem;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(46, 52, 64, 0.8);
             backdrop-filter: blur(10px);
             padding: 0.5rem 1rem;
             border-radius: 20px;
@@ -616,7 +597,7 @@
             gap: 1rem;
             margin-bottom: 1rem;
             font-size: 0.85rem;
-            color: var(--gray);
+            color: var(--nord4);
         }
 
         .blog-content h3 {
@@ -627,23 +608,23 @@
         }
 
         .blog-content h3 a {
-            color: var(--light);
+            color: var(--nord6);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .blog-content h3 a:hover {
-            color: var(--accent);
+            color: var(--nord8);
         }
 
         .blog-content p {
-            color: var(--gray);
+            color: var(--nord4);
             line-height: 1.6;
             margin-bottom: 1rem;
         }
 
         .read-more {
-            color: var(--accent);
+            color: var(--nord8);
             text-decoration: none;
             font-weight: 500;
             display: inline-flex;
@@ -656,7 +637,6 @@
             gap: 1rem;
         }
 
-        /* Contact Section */
         .contact-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -667,10 +647,11 @@
             font-family: 'Space Grotesk', sans-serif;
             font-size: 2rem;
             margin-bottom: 1.5rem;
+            color: var(--nord6);
         }
 
         .contact-info p {
-            color: var(--gray);
+            color: var(--nord4);
             line-height: 1.8;
             margin-bottom: 2rem;
         }
@@ -685,19 +666,19 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            color: var(--gray);
+            color: var(--nord4);
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .contact-link:hover {
-            color: var(--accent);
+            color: var(--nord8);
         }
 
         .contact-link-icon {
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(59, 66, 82, 0.5);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -706,8 +687,8 @@
         }
 
         .contact-form {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(59, 66, 82, 0.5);
+            border: 1px solid var(--nord2);
             border-radius: 20px;
             padding: 2rem;
         }
@@ -719,7 +700,7 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--gray);
+            color: var(--nord4);
             font-size: 0.9rem;
         }
 
@@ -727,8 +708,8 @@
         .form-group textarea {
             width: 100%;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(46, 52, 64, 0.8);
+            border: 1px solid var(--nord2);
             border-radius: 10px;
             color: var(--light);
             font-family: inherit;
@@ -739,7 +720,7 @@
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--accent);
+            border-color: var(--nord8);
         }
 
         .form-group textarea {
@@ -747,12 +728,11 @@
             resize: vertical;
         }
 
-        /* Footer */
         footer {
             background: var(--darker);
             padding: 3rem 10%;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--nord2);
         }
 
         .social-links {
@@ -765,29 +745,28 @@
         .social-link {
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(59, 66, 82, 0.5);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray);
+            color: var(--nord4);
             text-decoration: none;
             transition: all 0.3s ease;
             font-size: 1.2rem;
         }
 
         .social-link:hover {
-            background: var(--primary);
+            background: var(--nord9);
             color: var(--light);
             transform: translateY(-5px);
         }
 
         footer p {
-            color: var(--gray);
+            color: var(--nord4);
             font-size: 0.9rem;
         }
 
-        /* Particle Background */
         #particles {
             position: fixed;
             top: 0;
@@ -798,7 +777,6 @@
             pointer-events: none;
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
             .hero {
                 flex-direction: column;
@@ -824,6 +802,7 @@
 
             .hero-visual {
                 height: 400px;
+                width: 100%;
             }
 
             .about-grid {
@@ -875,13 +854,16 @@
             .section-title {
                 font-size: 2rem;
             }
+
+            .hero-visual {
+                height: 350px;
+            }
         }
     </style>
 </head>
 <body>
     <canvas id="particles"></canvas>
 
-    <!-- Navigation -->
     <nav>
         <div class="logo">🦙 BrownLlama</div>
         <ul class="nav-links">
@@ -899,13 +881,8 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
-        <!-- Code Rain Effect -->
         <div class="code-rain" id="codeRain"></div>
-        
-        <!-- Interactive Data Bubbles -->
-        <div class="data-bubbles" id="dataBubbles"></div>
         
         <div class="hero-content">
             <p class="greeting">Hello World! I'm</p>
@@ -918,11 +895,13 @@
             </div>
         </div>
         <div class="hero-visual">
-            <div id="llama-container"></div>
+            <div id="llama-container">
+                <canvas id="llamaCanvas"></canvas>
+            </div>
+            <div class="llama-hint">👆 Drag to rotate the llama</div>
         </div>
     </section>
 
-    <!-- About Section -->
     <section class="section" id="about">
         <h2 class="section-title"><span>01.</span> About Me</h2>
         <div class="about-grid">
@@ -945,7 +924,6 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
     <section class="section skills-section" id="skills">
         <h2 class="section-title"><span>02.</span> Skills & Expertise</h2>
         <div class="skills-grid">
@@ -1019,7 +997,6 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
     <section class="section" id="experience">
         <h2 class="section-title"><span>03.</span> Experience</h2>
         <div class="timeline">
@@ -1058,7 +1035,6 @@
         </div>
     </section>
 
-    <!-- Blog Section -->
     <section class="section blog-section" id="blog">
         <h2 class="section-title"><span>04.</span> Blog & Insights</h2>
         <div class="blog-grid">
@@ -1077,7 +1053,7 @@
                 </div>
             </article>
             <article class="blog-card">
-                <div class="blog-image" style="background: linear-gradient(135deg, #FF6B6B, #FFE66D);">
+                <div class="blog-image" style="background: linear-gradient(135deg, var(--nord11), var(--nord12));">
                     <span class="blog-category">Data Engineering</span>
                 </div>
                 <div class="blog-content">
@@ -1091,7 +1067,7 @@
                 </div>
             </article>
             <article class="blog-card">
-                <div class="blog-image" style="background: linear-gradient(135deg, #64ffda, #6C63FF);">
+                <div class="blog-image" style="background: linear-gradient(135deg, var(--nord7), var(--nord8));">
                     <span class="blog-category">Best Practices</span>
                 </div>
                 <div class="blog-content">
@@ -1105,7 +1081,7 @@
                 </div>
             </article>
             <article class="blog-card">
-                <div class="blog-image" style="background: linear-gradient(135deg, #a855f7, #ec4899);">
+                <div class="blog-image" style="background: linear-gradient(135deg, var(--nord15), var(--nord10));">
                     <span class="blog-category">Tutorial</span>
                 </div>
                 <div class="blog-content">
@@ -1119,7 +1095,7 @@
                 </div>
             </article>
             <article class="blog-card">
-                <div class="blog-image" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+                <div class="blog-image" style="background: linear-gradient(135deg, var(--nord13), var(--nord12));">
                     <span class="blog-category">Career</span>
                 </div>
                 <div class="blog-content">
@@ -1133,7 +1109,7 @@
                 </div>
             </article>
             <article class="blog-card">
-                <div class="blog-image" style="background: linear-gradient(135deg, #10b981, #3b82f6);">
+                <div class="blog-image" style="background: linear-gradient(135deg, var(--nord14), var(--nord7));">
                     <span class="blog-category">Tools</span>
                 </div>
                 <div class="blog-content">
@@ -1149,7 +1125,6 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section class="section" id="contact">
         <h2 class="section-title"><span>05.</span> Get In Touch</h2>
         <div class="contact-wrapper">
@@ -1197,7 +1172,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="social-links">
             <a href="#" class="social-link">🐙</a>
@@ -1242,30 +1216,7 @@
             setTimeout(typeText, typingDelay);
         }
 
-        // Start typing animation
         setTimeout(typeText, 1000);
-
-        // Create Interactive Data Bubbles
-        const dataBubblesContainer = document.getElementById('dataBubbles');
-        const bubbleIcons = ['📊', '☁️', '🔄', '💾', '🚀', '⚡', '🔍', '📈'];
-        const bubbleCount = 8;
-
-        for (let i = 0; i < bubbleCount; i++) {
-            const bubble = document.createElement('div');
-            bubble.className = 'data-bubble';
-            bubble.textContent = bubbleIcons[i];
-            
-            const size = Math.random() * 60 + 40;
-            bubble.style.width = `${size}px`;
-            bubble.style.height = `${size}px`;
-            bubble.style.left = `${Math.random() * 80 + 10}%`;
-            bubble.style.top = `${Math.random() * 80 + 10}%`;
-            bubble.style.animationDelay = `${Math.random() * 4}s`;
-            bubble.style.animationDuration = `${Math.random() * 4 + 6}s`;
-            bubble.style.pointerEvents = 'auto';
-            
-            dataBubblesContainer.appendChild(bubble);
-        }
 
         // Create Code Rain Effect
         const codeRainContainer = document.getElementById('codeRain');
@@ -1297,10 +1248,9 @@
             }, 7000);
         }
 
-        // Create code rain columns periodically
         setInterval(createCodeColumn, 800);
 
-        // Particle Background
+        // Particle Background - Nord themed
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -1321,6 +1271,9 @@
                 this.speedX = Math.random() * 0.5 - 0.25;
                 this.speedY = Math.random() * 0.5 - 0.25;
                 this.opacity = Math.random() * 0.5 + 0.2;
+                // Nord frost colors for particles
+                const nordColors = ['136, 192, 208', '129, 161, 193', '94, 129, 172', '143, 188, 187'];
+                this.color = nordColors[Math.floor(Math.random() * nordColors.length)];
             }
 
             update() {
@@ -1334,7 +1287,7 @@
             }
 
             draw() {
-                ctx.fillStyle = `rgba(108, 99, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -1357,7 +1310,6 @@
                 particle.draw();
             });
 
-            // Draw connections
             particles.forEach((a, index) => {
                 particles.slice(index + 1).forEach(b => {
                     const dx = a.x - b.x;
@@ -1365,7 +1317,7 @@
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
                     if (distance < 150) {
-                        ctx.strokeStyle = `rgba(108, 99, 255, ${0.1 * (1 - distance / 150)})`;
+                        ctx.strokeStyle = `rgba(136, 192, 208, ${0.1 * (1 - distance / 150)})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(a.x, a.y);
@@ -1381,213 +1333,428 @@
         initParticles();
         animateParticles();
 
-        // 3D Llama with Three.js
-        const container = document.getElementById('llama-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setClearColor(0x000000, 0);
-        container.appendChild(renderer.domElement);
-
-        // Create a stylized 3D Llama
-        const llamaGroup = new THREE.Group();
-
-        // Body
-        const bodyGeometry = new THREE.CapsuleGeometry(1.2, 2, 16, 32);
-        const bodyMaterial = new THREE.MeshPhongMaterial({ 
-            color: 0x8B4513,
-            flatShading: false,
-            shininess: 30
-        });
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-        body.rotation.z = Math.PI / 2;
-        body.position.y = -0.5;
-        llamaGroup.add(body);
-
-        // Neck
-        const neckGeometry = new THREE.CylinderGeometry(0.4, 0.5, 2.5, 16);
-        const neck = new THREE.Mesh(neckGeometry, bodyMaterial);
-        neck.position.set(-0.8, 1.2, 0);
-        neck.rotation.z = 0.3;
-        llamaGroup.add(neck);
-
-        // Head
-        const headGeometry = new THREE.SphereGeometry(0.6, 32, 32);
-        headGeometry.scale(1, 0.8, 0.9);
-        const head = new THREE.Mesh(headGeometry, bodyMaterial);
-        head.position.set(-1.5, 2.8, 0);
-        llamaGroup.add(head);
-
-        // Snout
-        const snoutGeometry = new THREE.CylinderGeometry(0.2, 0.25, 0.5, 16);
-        const snoutMaterial = new THREE.MeshPhongMaterial({ color: 0xA0522D });
-        const snout = new THREE.Mesh(snoutGeometry, snoutMaterial);
-        snout.rotation.x = Math.PI / 2;
-        snout.position.set(-1.9, 2.6, 0);
-        llamaGroup.add(snout);
-
-        // Eyes
-        const eyeGeometry = new THREE.SphereGeometry(0.12, 16, 16);
-        const eyeMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
-        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-        leftEye.position.set(-1.8, 2.95, 0.35);
-        llamaGroup.add(leftEye);
-
-        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-        rightEye.position.set(-1.8, 2.95, -0.35);
-        llamaGroup.add(rightEye);
-
-        // Eye highlights
-        const highlightGeometry = new THREE.SphereGeometry(0.04, 8, 8);
-        const highlightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const leftHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
-        leftHighlight.position.set(-1.88, 2.98, 0.38);
-        llamaGroup.add(leftHighlight);
-
-        const rightHighlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
-        rightHighlight.position.set(-1.88, 2.98, -0.32);
-        llamaGroup.add(rightHighlight);
-
-        // Ears
-        const earGeometry = new THREE.ConeGeometry(0.2, 0.8, 8);
-        const leftEar = new THREE.Mesh(earGeometry, bodyMaterial);
-        leftEar.position.set(-1.2, 3.4, 0.3);
-        leftEar.rotation.z = -0.3;
-        llamaGroup.add(leftEar);
-
-        const rightEar = new THREE.Mesh(earGeometry, bodyMaterial);
-        rightEar.position.set(-1.2, 3.4, -0.3);
-        rightEar.rotation.z = -0.3;
-        llamaGroup.add(rightEar);
-
-        // Legs
-        const legGeometry = new THREE.CylinderGeometry(0.15, 0.12, 1.8, 16);
-        const legPositions = [
-            { x: 1, z: 0.5 },
-            { x: 1, z: -0.5 },
-            { x: -0.5, z: 0.5 },
-            { x: -0.5, z: -0.5 }
-        ];
-
-        legPositions.forEach(pos => {
-            const leg = new THREE.Mesh(legGeometry, bodyMaterial);
-            leg.position.set(pos.x, -2.2, pos.z);
-            llamaGroup.add(leg);
-        });
-
-        // Wool puffs
-        const woolGeometry = new THREE.SphereGeometry(0.4, 16, 16);
-        const woolMaterial = new THREE.MeshPhongMaterial({ 
-            color: 0xD2691E,
-            flatShading: true
-        });
-
-        for (let i = 0; i < 8; i++) {
-            const wool = new THREE.Mesh(woolGeometry, woolMaterial);
-            const angle = (i / 8) * Math.PI * 2;
-            wool.position.set(
-                Math.cos(angle) * 0.8,
-                -0.5 + Math.sin(i * 0.5) * 0.3,
-                Math.sin(angle) * 0.8
-            );
-            wool.scale.set(
-                0.6 + Math.random() * 0.3,
-                0.6 + Math.random() * 0.3,
-                0.6 + Math.random() * 0.3
-            );
-            llamaGroup.add(wool);
-        }
-
-        // Tail
-        const tailGeometry = new THREE.SphereGeometry(0.3, 16, 16);
-        const tail = new THREE.Mesh(tailGeometry, woolMaterial);
-        tail.position.set(2, 0, 0);
-        llamaGroup.add(tail);
-
-        scene.add(llamaGroup);
-
-        // Floating GCP icons
-        const iconGroup = new THREE.Group();
+        // Nord-themed Llama - Three.js
+        let scene, camera, renderer, llama, pivot;
+        let walkPhase = 0;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        const legs = [];
         
-        const createIcon = (color, x, y, z) => {
-            const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-            const material = new THREE.MeshPhongMaterial({ 
-                color: color,
-                transparent: true,
-                opacity: 0.8
-            });
-            const icon = new THREE.Mesh(geometry, material);
-            icon.position.set(x, y, z);
-            icon.userData = { 
-                originalY: y,
-                phase: Math.random() * Math.PI * 2
-            };
-            return icon;
+        let rotationX = 0;
+        let rotationY = Math.PI;
+        
+        let animationStartTime = null;
+        let isEntranceAnimating = true;
+        const entranceDuration = 2000;
+
+        // Nord color palette for llama
+        const colors = {
+            // Main body - using Nord Snow Storm & Frost
+            body: 0x88C0D0,        // Nord8 - main frost blue
+            bodyLight: 0x8FBCBB,   // Nord7 - lighter teal
+            bodyDark: 0x5E81AC,    // Nord10 - darker blue
+            bodySide: 0x81A1C1,    // Nord9 - medium blue
+            
+            // Decorative elements - Nord Aurora
+            chest: 0xB48EAD,       // Nord15 - purple
+            accent1: 0xA3BE8C,     // Nord14 - green
+            accent2: 0xEBCB8B,     // Nord13 - yellow
+            accent3: 0xD08770,     // Nord12 - orange
+            
+            // Face and details
+            snout: 0xE5E9F0,       // Nord5 - light snow
+            snoutDark: 0xD8DEE9,   // Nord4 - darker snow
+            earInner: 0xBF616A,    // Nord11 - red/pink for ear inner
+            
+            // Dark elements
+            hooves: 0x2E3440,      // Nord0 - polar night
+            hoovesSide: 0x3B4252,  // Nord1 - slightly lighter
+            eye: 0x2E3440,         // Nord0 - polar night
+            
+            // Light elements
+            white: 0xECEFF4,       // Nord6 - brightest snow
+            whiteDark: 0xD8DEE9,   // Nord4
+            pinkish: 0xB48EAD,     // Nord15 - purple accent
         };
 
-        const icon1 = createIcon(0x4285F4, 3, 2, 1);
-        const icon2 = createIcon(0xDB4437, -3, 1, -1);
-        const icon3 = createIcon(0xF4B400, 2, -1, -2);
-        const icon4 = createIcon(0x0F9D58, -2, 3, 2);
+        function easeOutElastic(x) {
+            const c4 = (2 * Math.PI) / 3;
+            return x === 0 ? 0 : x === 1 ? 1 :
+                Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
+        }
 
-        iconGroup.add(icon1, icon2, icon3, icon4);
-        scene.add(iconGroup);
+        function easeOutBack(x) {
+            const c1 = 1.70158;
+            const c3 = c1 + 1;
+            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        }
 
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
+        function easeOutCubic(x) {
+            return 1 - Math.pow(1 - x, 3);
+        }
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
+        function easeInOutQuad(x) {
+            return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+        }
 
-        const pointLight = new THREE.PointLight(0x6C63FF, 0.5);
-        pointLight.position.set(-5, 3, 3);
-        scene.add(pointLight);
+        function createShadedBox(w, h, d, topColor, bottomColor, frontColor, backColor, leftColor, rightColor) {
+            const geo = new THREE.BoxGeometry(w, h, d);
+            
+            const materials = [
+                new THREE.MeshBasicMaterial({ color: rightColor }),
+                new THREE.MeshBasicMaterial({ color: leftColor }),
+                new THREE.MeshBasicMaterial({ color: topColor }),
+                new THREE.MeshBasicMaterial({ color: bottomColor }),
+                new THREE.MeshBasicMaterial({ color: frontColor }),
+                new THREE.MeshBasicMaterial({ color: backColor })
+            ];
+            
+            const mesh = new THREE.Mesh(geo, materials);
+            return mesh;
+        }
 
-        const pointLight2 = new THREE.PointLight(0xFF6B6B, 0.5);
-        pointLight2.position.set(5, -3, 3);
-        scene.add(pointLight2);
+        function createBox(w, h, d, baseColor, lightMult = 1.15, darkMult = 0.75) {
+            const base = new THREE.Color(baseColor);
+            const light = base.clone().multiplyScalar(lightMult);
+            const dark = base.clone().multiplyScalar(darkMult);
+            const side1 = base.clone().multiplyScalar(0.9);
+            const side2 = base.clone().multiplyScalar(0.95);
+            
+            return createShadedBox(w, h, d, 
+                light.getHex(),
+                dark.getHex(),
+                side1.getHex(),
+                side2.getHex(),
+                dark.getHex(),
+                side1.getHex()
+            );
+        }
 
-        camera.position.z = 8;
-        camera.position.y = 1;
+        function createLeg(x, z) {
+            const legPivot = new THREE.Group();
+            legPivot.position.set(x, 1.6, z);
+            
+            const legGroup = new THREE.Group();
+            
+            const upperLeg = createBox(0.5, 1.0, 0.5, colors.body);
+            upperLeg.position.y = -0.5;
+            legGroup.add(upperLeg);
 
-        let mouseX = 0;
-        let mouseY = 0;
+            const lowerLeg = createBox(0.45, 0.6, 0.45, colors.bodyLight);
+            lowerLeg.position.y = -1.1;
+            legGroup.add(lowerLeg);
+            
+            const hoof = createBox(0.48, 0.35, 0.48, colors.hooves, 1.3, 0.8);
+            hoof.position.y = -1.45;
+            legGroup.add(hoof);
+            
+            legPivot.add(legGroup);
+            return legPivot;
+        }
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-        });
+        function createLlama() {
+            pivot = new THREE.Group();
+            llama = new THREE.Group();
 
-        function animate() {
-            requestAnimationFrame(animate);
+            // Main body - Nord frost blue
+            const body = createBox(2.0, 1.6, 3.0, colors.body);
+            body.position.set(0, 2.4, 0);
+            llama.add(body);
 
-            // Rotate llama slightly based on mouse
-            llamaGroup.rotation.y += 0.005;
-            llamaGroup.rotation.y += (mouseX * 0.5 - llamaGroup.rotation.y) * 0.02;
-            llamaGroup.rotation.x = mouseY * 0.1;
+            // Body patches - using Nord aurora colors
+            const patchGreen1 = createBox(0.1, 0.8, 1.4, colors.accent1);
+            patchGreen1.position.set(-1.01, 2.5, 0.2);
+            llama.add(patchGreen1);
 
-            // Animate floating icons
-            iconGroup.children.forEach((icon, i) => {
-                icon.rotation.x += 0.02;
-                icon.rotation.y += 0.02;
-                icon.position.y = icon.userData.originalY + Math.sin(Date.now() * 0.002 + icon.userData.phase) * 0.3;
+            const patchGreen2 = createBox(0.1, 0.8, 1.4, colors.accent1);
+            patchGreen2.position.set(1.01, 2.5, 0.2);
+            llama.add(patchGreen2);
+
+            const patchYellow1 = createBox(0.1, 0.5, 0.6, colors.accent2);
+            patchYellow1.position.set(-1.02, 2.0, -0.3);
+            llama.add(patchYellow1);
+
+            const patchYellow2 = createBox(0.1, 0.5, 0.6, colors.accent2);
+            patchYellow2.position.set(1.02, 2.0, -0.3);
+            llama.add(patchYellow2);
+
+            const patchDark1 = createBox(0.1, 0.4, 0.5, colors.bodyDark);
+            patchDark1.position.set(-1.02, 1.8, 0.8);
+            llama.add(patchDark1);
+
+            const patchDark2 = createBox(0.1, 0.4, 0.5, colors.bodyDark);
+            patchDark2.position.set(1.02, 1.8, 0.8);
+            llama.add(patchDark2);
+
+            // Chest band - Nord purple
+            const chestBand = createBox(2.05, 0.5, 0.8, colors.chest);
+            chestBand.position.set(0, 2.8, -0.8);
+            llama.add(chestBand);
+
+            // Neck
+            const neck = createBox(1.0, 2.4, 1.0, colors.bodyLight);
+            neck.position.set(0, 4.0, -1.2);
+            llama.add(neck);
+
+            const neckWhite = createBox(0.3, 1.8, 0.1, colors.white);
+            neckWhite.position.set(0, 4.0, -1.76);
+            llama.add(neckWhite);
+
+            const neckSide1 = createBox(0.1, 1.0, 0.6, colors.accent3);
+            neckSide1.position.set(-0.51, 3.8, -1.2);
+            llama.add(neckSide1);
+
+            const neckSide2 = createBox(0.1, 1.0, 0.6, colors.accent3);
+            neckSide2.position.set(0.51, 3.8, -1.2);
+            llama.add(neckSide2);
+
+            // Head
+            const head = createBox(1.2, 1.1, 1.4, colors.body);
+            head.position.set(0, 5.5, -1.4);
+            llama.add(head);
+
+            const faceWhite = createBox(0.6, 0.5, 0.1, colors.white);
+            faceWhite.position.set(0, 5.4, -2.11);
+            llama.add(faceWhite);
+
+            const faceSide1 = createBox(0.1, 0.6, 0.8, colors.accent2);
+            faceSide1.position.set(-0.61, 5.4, -1.5);
+            llama.add(faceSide1);
+
+            const faceSide2 = createBox(0.1, 0.6, 0.8, colors.accent2);
+            faceSide2.position.set(0.61, 5.4, -1.5);
+            llama.add(faceSide2);
+
+            // Snout - Nord snow
+            const snout = createBox(0.8, 0.5, 0.5, colors.snout);
+            snout.position.set(0, 5.1, -2.0);
+            llama.add(snout);
+
+            const snoutBand = createBox(0.85, 0.25, 0.1, colors.chest);
+            snoutBand.position.set(0, 5.25, -2.26);
+            llama.add(snoutBand);
+
+            // Eyes - Nord polar night
+            const eyeMat = new THREE.MeshBasicMaterial({ color: colors.eye });
+            const leftEyeGeo = new THREE.BoxGeometry(0.2, 0.15, 0.1);
+            const leftEye = new THREE.Mesh(leftEyeGeo, eyeMat);
+            leftEye.position.set(-0.35, 5.6, -2.12);
+            llama.add(leftEye);
+
+            const rightEyeGeo = new THREE.BoxGeometry(0.2, 0.15, 0.1);
+            const rightEye = new THREE.Mesh(rightEyeGeo, eyeMat);
+            rightEye.position.set(0.35, 5.6, -2.12);
+            llama.add(rightEye);
+
+            // Ears
+            const leftEar = createBox(0.25, 0.8, 0.2, colors.body);
+            leftEar.position.set(-0.4, 6.3, -1.2);
+            leftEar.rotation.z = -0.25;
+            leftEar.rotation.x = -0.15;
+            llama.add(leftEar);
+
+            const leftEarInner = createBox(0.12, 0.5, 0.1, colors.earInner);
+            leftEarInner.position.set(-0.38, 6.25, -1.05);
+            leftEarInner.rotation.z = -0.25;
+            llama.add(leftEarInner);
+
+            const rightEar = createBox(0.25, 0.8, 0.2, colors.body);
+            rightEar.position.set(0.4, 6.3, -1.2);
+            rightEar.rotation.z = 0.25;
+            rightEar.rotation.x = -0.15;
+            llama.add(rightEar);
+
+            const rightEarInner = createBox(0.12, 0.5, 0.1, colors.earInner);
+            rightEarInner.position.set(0.38, 6.25, -1.05);
+            rightEarInner.rotation.z = 0.25;
+            llama.add(rightEarInner);
+
+            // Legs
+            const legPositions = [
+                { x: -0.6, z: -1.0 },
+                { x: 0.6, z: -1.0 },
+                { x: -0.6, z: 1.0 },
+                { x: 0.6, z: 1.0 }
+            ];
+
+            legPositions.forEach((pos) => {
+                const leg = createLeg(pos.x, pos.z);
+                llama.add(leg);
+                legs.push(leg);
             });
+
+            // Tail
+            const tail = createBox(0.3, 0.4, 0.5, colors.body);
+            tail.position.set(0, 2.8, 1.7);
+            llama.add(tail);
+
+            llama.position.y = -3;
+            
+            pivot.add(llama);
+            
+            pivot.scale.set(0, 0, 0);
+            pivot.rotation.y = -Math.PI * 2;
+            
+            scene.add(pivot);
+        }
+
+        function initLlama() {
+            const container = document.getElementById('llama-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+            camera.position.set(0, 0, 12);
+            camera.lookAt(0, 0, 0);
+
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: document.getElementById('llamaCanvas'), 
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setClearColor(0x000000, 0);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+            scene.add(ambientLight);
+
+            createLlama();
+
+            const llamaCanvas = document.getElementById('llamaCanvas');
+            llamaCanvas.addEventListener('mousedown', onMouseDown);
+            llamaCanvas.addEventListener('mousemove', onMouseMove);
+            llamaCanvas.addEventListener('mouseup', onMouseUp);
+            llamaCanvas.addEventListener('mouseleave', onMouseUp);
+            
+            llamaCanvas.addEventListener('touchstart', onTouchStart);
+            llamaCanvas.addEventListener('touchmove', onTouchMove);
+            llamaCanvas.addEventListener('touchend', onMouseUp);
+
+            animationStartTime = performance.now();
+            
+            animateLlama();
+            window.addEventListener('resize', onResizeLlama);
+        }
+
+        function onMouseDown(e) {
+            if (isEntranceAnimating) return;
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        }
+
+        function onMouseMove(e) {
+            if (!isDragging || isEntranceAnimating) return;
+            const deltaX = e.clientX - previousMousePosition.x;
+            const deltaY = e.clientY - previousMousePosition.y;
+            
+            rotationY += deltaX * 0.01;
+            rotationX += deltaY * 0.01;
+            
+            updateRotation();
+            
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        }
+
+        function updateRotation() {
+            const quaternionX = new THREE.Quaternion();
+            const quaternionY = new THREE.Quaternion();
+            
+            quaternionX.setFromAxisAngle(new THREE.Vector3(1, 0, 0), rotationX);
+            quaternionY.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotationY);
+            
+            pivot.quaternion.copy(quaternionY.multiply(quaternionX));
+        }
+
+        function onMouseUp() {
+            isDragging = false;
+        }
+
+        function onTouchStart(e) {
+            if (isEntranceAnimating) return;
+            isDragging = true;
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+
+        function onTouchMove(e) {
+            if (!isDragging || isEntranceAnimating) return;
+            const deltaX = e.touches[0].clientX - previousMousePosition.x;
+            const deltaY = e.touches[0].clientY - previousMousePosition.y;
+            
+            rotationY += deltaX * 0.01;
+            rotationX += deltaY * 0.01;
+            
+            updateRotation();
+            
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+
+        function onResizeLlama() {
+            const container = document.getElementById('llama-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function animateEntrance(currentTime) {
+            const elapsed = currentTime - animationStartTime;
+            const progress = Math.min(elapsed / entranceDuration, 1);
+            
+            const scaleProgress = easeOutElastic(progress);
+            pivot.scale.set(scaleProgress, scaleProgress, scaleProgress);
+            
+            const spinProgress = easeOutCubic(progress);
+            const targetRotationY = Math.PI;
+            const startRotationY = Math.PI - (Math.PI * 2);
+            rotationY = startRotationY + (targetRotationY - startRotationY) * spinProgress;
+            
+            const bounceProgress = easeOutBack(progress);
+            const dropOffset = (1 - bounceProgress) * 5;
+            pivot.position.y = dropOffset;
+            
+            const tiltProgress = easeInOutQuad(progress);
+            rotationX = (1 - tiltProgress) * 0.3;
+            
+            updateRotation();
+            
+            if (progress >= 1) {
+                isEntranceAnimating = false;
+                pivot.position.y = 0;
+                rotationX = 0;
+                rotationY = Math.PI;
+                updateRotation();
+            }
+        }
+
+        function animateLlama(currentTime) {
+            requestAnimationFrame(animateLlama);
+            
+            if (isEntranceAnimating && animationStartTime) {
+                animateEntrance(currentTime);
+            }
+
+            walkPhase += 0.06;
+            
+            legs[0].rotation.x = Math.sin(walkPhase) * 0.4;
+            legs[1].rotation.x = Math.sin(walkPhase + Math.PI) * 0.4;
+            legs[2].rotation.x = Math.sin(walkPhase + Math.PI) * 0.4;
+            legs[3].rotation.x = Math.sin(walkPhase) * 0.4;
+            
+            llama.position.y = -3 + Math.sin(walkPhase * 2) * 0.03;
+
+            if (!isDragging && !isEntranceAnimating) {
+                rotationY += 0.005;
+                updateRotation();
+            }
 
             renderer.render(scene, camera);
         }
 
-        animate();
-
-        // Handle resize
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
+        initLlama();
 
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1620,7 +1787,7 @@
             navLinks.style.top = '100%';
             navLinks.style.left = '0';
             navLinks.style.right = '0';
-            navLinks.style.background = 'rgba(10, 10, 15, 0.95)';
+            navLinks.style.background = 'rgba(46, 52, 64, 0.95)';
             navLinks.style.padding = '2rem';
             navLinks.style.gap = '1.5rem';
         });
