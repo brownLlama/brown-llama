@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering BigQuery Cost Optimization: A Complete Guide | BrownLlama</title>
+    <meta name="description" content="Learn advanced techniques to reduce your BigQuery costs by up to 70% while maintaining optimal query performance.">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nord0: #2E3440;
+            --nord1: #3B4252;
+            --nord2: #434C5E;
+            --nord3: #4C566A;
+            --nord4: #D8DEE9;
+            --nord5: #E5E9F0;
+            --nord6: #ECEFF4;
+            --nord7: #8FBCBB;
+            --nord8: #88C0D0;
+            --nord9: #81A1C1;
+            --nord10: #5E81AC;
+            --nord11: #BF616A;
+            --nord12: #D08770;
+            --nord13: #EBCB8B;
+            --nord14: #A3BE8C;
+            --nord15: #B48EAD;
+            --primary: var(--nord9);
+            --dark: var(--nord0);
+            --darker: #242933;
+            --light: var(--nord6);
+            --accent: var(--nord8);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            line-height: 1.8;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(46, 52, 64, 0.8);
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--nord8), var(--nord15));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--nord4);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .article-header {
+            padding: 120px 10% 60px;
+            background: linear-gradient(135deg, var(--nord9), var(--nord15));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .article-header-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: white;
+        }
+
+        .breadcrumb span {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .article-category {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .article-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1rem;
+            color: var(--nord8);
+        }
+
+        .article-content h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin: 2rem 0 0.8rem;
+            color: var(--nord6);
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            color: var(--nord4);
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+            color: var(--nord4);
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content code {
+            background: var(--nord1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--nord8);
+        }
+
+        .article-content pre {
+            background: var(--nord1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--nord2);
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid var(--nord8);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: var(--nord4);
+        }
+
+        .article-content a {
+            color: var(--nord8);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .article-content a:hover {
+            border-bottom-color: var(--nord8);
+        }
+
+        .tip-box {
+            background: rgba(163, 190, 140, 0.15);
+            border: 1px solid var(--nord14);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tip-box h4 {
+            color: var(--nord14);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .warning-box {
+            background: rgba(235, 203, 139, 0.15);
+            border: 1px solid var(--nord13);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .warning-box h4 {
+            color: var(--nord13);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--nord2);
+        }
+
+        .post-nav-link {
+            flex: 1;
+            padding: 1.5rem;
+            background: rgba(59, 66, 82, 0.5);
+            border: 1px solid var(--nord2);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .post-nav-link:hover {
+            border-color: var(--nord9);
+            transform: translateY(-3px);
+        }
+
+        .post-nav-link.prev {
+            text-align: left;
+        }
+
+        .post-nav-link.next {
+            text-align: right;
+        }
+
+        .post-nav-label {
+            font-size: 0.85rem;
+            color: var(--nord4);
+            margin-bottom: 0.5rem;
+        }
+
+        .post-nav-title {
+            color: var(--nord6);
+            font-weight: 600;
+        }
+
+        .related-posts {
+            background: var(--darker);
+            padding: 60px 10%;
+        }
+
+        .related-posts h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .related-card {
+            background: rgba(59, 66, 82, 0.5);
+            border: 1px solid var(--nord2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .related-card:hover {
+            border-color: var(--nord9);
+            transform: translateY(-5px);
+        }
+
+        .related-card h3 {
+            color: var(--nord6);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-card p {
+            color: var(--nord4);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: var(--darker);
+            padding: 2rem 10%;
+            text-align: center;
+            border-top: 1px solid var(--nord2);
+        }
+
+        footer p {
+            color: var(--nord4);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .article-header h1 {
+                font-size: 2rem;
+            }
+
+            .article-meta {
+                gap: 1rem;
+            }
+
+            .post-navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">🦙 BrownLlama</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#about">About</a></li>
+            <li><a href="/#skills">Skills</a></li>
+            <li><a href="/blog/">Blog</a></li>
+        </ul>
+    </nav>
+
+    <header class="article-header">
+        <div class="article-header-content">
+            <nav class="breadcrumb">
+                <a href="/">Home</a>
+                <span>/</span>
+                <a href="/blog/">Blog</a>
+                <span>/</span>
+                <span>BigQuery Cost Optimization</span>
+            </nav>
+            <span class="article-category">GCP</span>
+            <h1>Mastering BigQuery Cost Optimization: A Complete Guide</h1>
+            <div class="article-meta">
+                <span>📅 December 15, 2024</span>
+                <span>⏱️ 8 min read</span>
+                <span>👤 BrownLlama</span>
+            </div>
+        </div>
+    </header>
+
+    <article class="article-content">
+        <p>BigQuery is an incredibly powerful data warehouse, but without proper optimization, costs can quickly spiral out of control. In this comprehensive guide, I'll share the techniques I've used to reduce BigQuery costs by up to 70% while maintaining—and often improving—query performance.</p>
+
+        <h2>Understanding BigQuery Pricing</h2>
+        <p>Before diving into optimization strategies, it's crucial to understand how BigQuery charges for usage. There are two main pricing models:</p>
+        
+        <ul>
+            <li><strong>On-demand pricing:</strong> You pay $5 per TB of data processed by your queries</li>
+            <li><strong>Flat-rate pricing:</strong> You purchase dedicated slots (compute capacity) for a fixed monthly cost</li>
+        </ul>
+
+        <p>Most organizations start with on-demand pricing, which is where these optimization techniques have the biggest impact.</p>
+
+        <h2>1. Partitioning Your Tables</h2>
+        <p>Table partitioning is the single most effective way to reduce query costs. By partitioning tables on a date or timestamp column, BigQuery only scans the partitions relevant to your query.</p>
+
+        <pre><code>CREATE TABLE my_dataset.events
+PARTITION BY DATE(event_timestamp)
+AS SELECT * FROM my_dataset.raw_events;</code></pre>
+
+        <div class="tip-box">
+            <h4>💡 Pro Tip</h4>
+            <p>Always include a partition filter in your WHERE clause. BigQuery will warn you if you're scanning all partitions, but it won't prevent the query from running.</p>
+        </div>
+
+        <h3>Choosing the Right Partition Column</h3>
+        <p>Select a column that:</p>
+        <ul>
+            <li>Is frequently used in WHERE clauses</li>
+            <li>Has good cardinality (not too many unique values per day)</li>
+            <li>Represents when the data was created or when it's most often queried</li>
+        </ul>
+
+        <h2>2. Clustering for Additional Optimization</h2>
+        <p>Clustering organizes data within partitions based on the values of specified columns. This is particularly effective when combined with partitioning.</p>
+
+        <pre><code>CREATE TABLE my_dataset.events
+PARTITION BY DATE(event_timestamp)
+CLUSTER BY user_id, event_type
+AS SELECT * FROM my_dataset.raw_events;</code></pre>
+
+        <h2>3. Query Best Practices</h2>
+        <p>How you write queries has a significant impact on costs:</p>
+
+        <h3>Avoid SELECT *</h3>
+        <p>Only select the columns you actually need. BigQuery is columnar, so unused columns aren't free—they still count toward bytes processed.</p>
+
+        <pre><code>-- ❌ Expensive
+SELECT * FROM my_dataset.large_table;
+
+-- ✅ Cost-effective
+SELECT user_id, event_type, event_timestamp 
+FROM my_dataset.large_table;</code></pre>
+
+        <h3>Use LIMIT Wisely</h3>
+        <p>LIMIT doesn't reduce the amount of data scanned—it only limits the results returned. For cost savings, focus on filtering with WHERE clauses.</p>
+
+        <div class="warning-box">
+            <h4>⚠️ Common Mistake</h4>
+            <p>Adding LIMIT 100 to a query doesn't make it cheaper. You're still charged for scanning the entire table. Use partitioning and clustering instead.</p>
+        </div>
+
+        <h2>4. Materialized Views</h2>
+        <p>For frequently-run aggregation queries, materialized views can dramatically reduce costs by pre-computing results.</p>
+
+        <pre><code>CREATE MATERIALIZED VIEW my_dataset.daily_summary
+AS SELECT
+    DATE(event_timestamp) as event_date,
+    event_type,
+    COUNT(*) as event_count,
+    COUNT(DISTINCT user_id) as unique_users
+FROM my_dataset.events
+GROUP BY 1, 2;</code></pre>
+
+        <h2>5. Slot Reservations for Predictable Workloads</h2>
+        <p>If your monthly BigQuery spend exceeds $10,000, consider flat-rate pricing with slot reservations. This provides:</p>
+        <ul>
+            <li>Predictable monthly costs</li>
+            <li>No per-query charges</li>
+            <li>Better resource management for concurrent queries</li>
+        </ul>
+
+        <h2>Monitoring and Continuous Optimization</h2>
+        <p>Set up monitoring to track your BigQuery usage:</p>
+        <ul>
+            <li>Use <code>INFORMATION_SCHEMA.JOBS</code> to analyze query patterns</li>
+            <li>Set up billing alerts in Google Cloud Console</li>
+            <li>Review the Query Insights dashboard regularly</li>
+        </ul>
+
+        <h2>Conclusion</h2>
+        <p>BigQuery cost optimization is an ongoing process. Start with partitioning and clustering, refine your query patterns, and continuously monitor your usage. With these techniques, you can significantly reduce costs while building a more efficient data platform.</p>
+
+        <p>Have questions or want to share your own optimization tips? Feel free to reach out on LinkedIn!</p>
+
+        <nav class="post-navigation">
+            <a href="/blog/posts/real-time-data-pipelines-dataflow.html" class="post-nav-link prev">
+                <div class="post-nav-label">← Previous Post</div>
+                <div class="post-nav-title">Building Real-Time Data Pipelines with Dataflow</div>
+            </a>
+            <a href="/blog/posts/data-modeling-bigquery.html" class="post-nav-link next">
+                <div class="post-nav-label">Next Post →</div>
+                <div class="post-nav-title">Data Modeling in BigQuery: Star Schema vs. Nested</div>
+            </a>
+        </nav>
+    </article>
+
+    <section class="related-posts">
+        <h2>Related Posts</h2>
+        <div class="related-grid">
+            <a href="/blog/posts/dbt-bigquery-stack.html" class="related-card">
+                <h3>dbt + BigQuery: The Ultimate Data Transformation Stack</h3>
+                <p>How to leverage dbt for maintainable transformations in BigQuery.</p>
+            </a>
+            <a href="/blog/posts/data-modeling-bigquery.html" class="related-card">
+                <h3>Data Modeling in BigQuery</h3>
+                <p>Star Schema vs. Nested Structures for optimal performance.</p>
+            </a>
+            <a href="/blog/posts/terraform-gcp-infrastructure.html" class="related-card">
+                <h3>Infrastructure as Code for Data Platforms</h3>
+                <p>Managing GCP data infrastructure with Terraform.</p>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 BrownLlama 🦙 | Built with passion for data engineering</p>
+    </footer>
+</body>
+</html>

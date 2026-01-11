@@ -1,0 +1,76 @@
+{
+  "posts": [
+    {
+      "slug": "mastering-bigquery-cost-optimization",
+      "title": "Mastering BigQuery Cost Optimization: A Complete Guide",
+      "date": "2024-12-15",
+      "category": "GCP",
+      "readTime": "8 min read",
+      "excerpt": "Learn advanced techniques to reduce your BigQuery costs by up to 70% while maintaining optimal query performance. From partitioning strategies to slot reservations...",
+      "gradient": ["var(--nord9)", "var(--nord15)"]
+    },
+    {
+      "slug": "real-time-data-pipelines-dataflow",
+      "title": "Building Real-Time Data Pipelines with Dataflow and Pub/Sub",
+      "date": "2024-11-28",
+      "category": "Data Engineering",
+      "readTime": "12 min read",
+      "excerpt": "A deep dive into creating production-ready streaming pipelines that can handle millions of events per second with exactly-once processing guarantees...",
+      "gradient": ["var(--nord11)", "var(--nord12)"]
+    },
+    {
+      "slug": "data-modeling-bigquery",
+      "title": "Data Modeling in BigQuery: Star Schema vs. Nested Structures",
+      "date": "2024-11-10",
+      "category": "Best Practices",
+      "readTime": "6 min read",
+      "excerpt": "Exploring the trade-offs between traditional dimensional modeling and BigQuery's native nested/repeated fields for optimal query performance...",
+      "gradient": ["var(--nord7)", "var(--nord8)"]
+    },
+    {
+      "slug": "terraform-gcp-infrastructure",
+      "title": "Infrastructure as Code for Data Platforms: Terraform + GCP",
+      "date": "2024-10-22",
+      "category": "Tutorial",
+      "readTime": "15 min read",
+      "excerpt": "Complete guide to managing your entire GCP data infrastructure with Terraform. Includes modules for BigQuery datasets, Dataflow jobs, and Cloud Composer...",
+      "gradient": ["var(--nord15)", "var(--nord10)"]
+    },
+    {
+      "slug": "gcp-data-engineer-journey",
+      "title": "My Journey to Becoming a GCP Professional Data Engineer",
+      "date": "2024-10-05",
+      "category": "Career",
+      "readTime": "5 min read",
+      "excerpt": "Sharing my experience, study resources, and tips for passing the Google Cloud Professional Data Engineer certification exam on the first attempt...",
+      "gradient": ["var(--nord13)", "var(--nord12)"]
+    },
+    {
+      "slug": "dbt-bigquery-stack",
+      "title": "dbt + BigQuery: The Ultimate Data Transformation Stack",
+      "date": "2024-09-18",
+      "category": "Tools",
+      "readTime": "10 min read",
+      "excerpt": "How to leverage dbt for maintainable, testable, and documented data transformations in BigQuery. Includes project structure and best practices...",
+      "gradient": ["var(--nord14)", "var(--nord7)"]
+    },
+    {
+      "slug": "apache-beam-patterns",
+      "title": "Essential Apache Beam Patterns for Production Pipelines",
+      "date": "2024-09-01",
+      "category": "Data Engineering",
+      "readTime": "14 min read",
+      "excerpt": "Master the most important Apache Beam patterns including windowing, triggers, and side inputs for building robust streaming applications...",
+      "gradient": ["var(--nord10)", "var(--nord9)"]
+    },
+    {
+      "slug": "bigquery-ml-introduction",
+      "title": "Getting Started with BigQuery ML: Machine Learning in SQL",
+      "date": "2024-08-15",
+      "category": "GCP",
+      "readTime": "11 min read",
+      "excerpt": "Learn how to train and deploy machine learning models directly in BigQuery using SQL. Perfect for data engineers looking to add ML to their toolkit...",
+      "gradient": ["var(--nord8)", "var(--nord14)"]
+    }
+  ]
+}
